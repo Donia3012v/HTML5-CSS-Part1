@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>video controls</title>
+        <link rel="stylesheet"href="part1.css">
+    </head>
+    <body>
+        <video src="./video/frozen.mp4"  width="600" poster="./image/frozen.jpg" id="vid"  style="text-align: center"></video>
+        <div>
+            
+            <input id="bar" min="0" max="100" value="0" type="range" style="width:40%"></input>
+            <span id="video-time">0.00/0.00</span>
+        </div>
+        <div>
+            <button id="startv" >play</button>
+            <button id="stopv" >stop</button>
+            <button id="beginv"> << </button>
+            <button id="backv"> < </button>
+            <button id="addv">></button>
+            <button id="end">>></button>
+            <input id="volume" type="range"></input>
+            <button id="mute">Mute</button>
+            <button id="fullscreen">[ ]</button>
+            <br>
+            <p>speed</p>
+            <input type="range" id="speed"  min="0.5" max="16" step="1" value="2" style="display:inline" >
+        </div>
+        
+
+        <script>
+            var vid = document.getElementById("vid");
+            var bar = document.getElementById("bar");
+            var startv = document.getElementById("startv");
+            var stopv = document.getElementById("stopv");
+            var mute = document.getElementById("mute");
+            var volume = document.getElementById("volume");
+            var fullscreen = document.getElementById("fullscreen");
+            var beginv = document.getElementById("beginv");
+            var backv = document.getElementById("backv");
+            var addv= document.getElementById("addv");
+            var end = document.getElementById("end");
+            var speed = document.getElementById("speed");
+
+
+            startv.addEventListener('click',function()
+            {
+                vid.play();
+                
+            });
+            stopv.addEventListener('click',function(){
+                vid.pause();
+            });
+            vid.addEventListener("timeupdate", function(){
+                bar.value =vid.currentTime;
+                document.getElementById("video-time").innerHTML = parseFloat(vid.currentTime/60).toFixed(2)+"/"+parseFloat(vid.duration).toFixed(2);
+            });
+            mute.addEventListener('click', function(){
+                vid.muted =!vid.muted;
+            });
+            volume.addEventListener('change',function(e){
+                vid.volume = e.currentTarget.value / 100;
+            });
+            fullscreen.addEventListener('click',()=>{
+                vid.requestFullscreen();
+            });
+            beginv.addEventListener("click", function(){
+                vid.currentTime = 0;
+            });
+            backv.addEventListener("click", function(){
+                vid.currentTime = vid.currentTime-1;
+            });
+            addv.addEventListener("click",function()
+            {
+                vid.currentTime = vid.currentTime+2;
+            });
+            end.addEventListener("click",function(){
+                vid.currentTime = vid.duration-5;
+            });
+            speed.addEventListener("change",()=>{
+                vid.playbackRate = speed.value;
+            });
+            bar.addEventListener("change", function(){
+             vid.currentTime = bar.value;
+            });
+        </script>
+    </body>
+</html>
